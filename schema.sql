@@ -1,18 +1,7 @@
 
--- =========================================
--- PROJETO BCDADOS
--- Sistema de Assistência Técnica
--- =========================================
-
--- 1. Criar banco de dados
 CREATE DATABASE IF NOT EXISTS assistencia_tecnica;
-
 USE assistencia_tecnica;
 
-
--- =========================================
--- 2. Tabela CLIENTES
--- =========================================
 
 CREATE TABLE clientes (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
@@ -21,22 +10,12 @@ CREATE TABLE clientes (
     email VARCHAR(100)
 );
 
-
--- =========================================
--- 3. Tabela TECNICOS
--- =========================================
-
 CREATE TABLE tecnicos (
     id_tecnico INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     especialidade VARCHAR(100) NOT NULL
 );
-
-
--- =========================================
--- 4. Tabela EQUIPAMENTOS
--- =========================================
 
 CREATE TABLE equipamentos (
     id_equipamento INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,10 +32,6 @@ CREATE TABLE equipamentos (
         ON UPDATE CASCADE
 );
 
-
--- =========================================
--- 5. Tabela ORDENS_SERVICO
--- =========================================
 
 CREATE TABLE ordens_servico (
     id_ordem INT AUTO_INCREMENT PRIMARY KEY,
@@ -86,11 +61,13 @@ CREATE TABLE ordens_servico (
     CONSTRAINT fk_ordem_tecnico
         FOREIGN KEY (id_tecnico)
         REFERENCES tecnicos(id_tecnico)
-        ON DELETE RESTRICT
-        ON UPDATE CASCADE,
+        ON DELETE RESTRICT,
 
     CONSTRAINT chk_valor_servico
-        CHECK (valor_servico IS NULL OR valor_servico >= 0),
+        CHECK (
+            valor_servico IS NULL
+            OR valor_servico >= 0
+        ),
 
     CONSTRAINT chk_ordem_concluida
         CHECK (
@@ -101,8 +78,3 @@ CREATE TABLE ordens_servico (
             )
         )
 );
-
-
--- =========================================
--- FIM DO SCHEMA
--- =========================================
