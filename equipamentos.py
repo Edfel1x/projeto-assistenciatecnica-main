@@ -1,5 +1,6 @@
 import clientes
 
+
 equipamentos = []
 
 def cadastro_equipamento(tipo, marca, modelo, numero_serie, id_cliente=None):

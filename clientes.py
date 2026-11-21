@@ -5,7 +5,11 @@ def cadastro_cliente(nome, telefone, email):
     if not nome:
         print("O nome não pode ser vazio.")
         return
-    telefone = telefone.strip()
+    try:
+        telefone = telefone.strip()
+    except (AttributeError, TypeError):
+        print("Telefone inválido: informe um número de telefone.")
+        return
     if not telefone:
         print("O telefone não pode ser vazio.")
         return
@@ -48,11 +52,14 @@ def solicitar_cadastro_cliente():
         break
 
     while True:
-        telefone = input("Digite o telefone do cliente: ").strip()
-        if not telefone:
-            print("O telefone não pode ser vazio. Tente novamente.")
-            continue
-        if not telefone.isascii() or not telefone.isdigit():
+        try:
+            telefone = input("Digite o telefone do cliente: ").strip()
+            if not telefone:
+                print("O telefone não pode ser vazio. Tente novamente.")
+                continue
+            if not telefone.isascii() or not telefone.isdigit():
+                raise ValueError("O telefone deve conter somente números.")
+        except ValueError:
             print("O telefone deve conter somente números. Tente novamente.")
             continue
         break

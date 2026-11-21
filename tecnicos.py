@@ -1,11 +1,16 @@
 tecnicos = []
 
+
 def cadastro_tecnico(nome, telefone, especialidade):
     nome = nome.strip()
     if not nome:
         print("O nome não pode ser vazio.")
         return
-    telefone = telefone.strip()
+    try:
+        telefone = telefone.strip()
+    except (AttributeError, TypeError):
+        print("Telefone inválido: informe um número de telefone.")
+        return
     if not telefone:
         print("O telefone não pode ser vazio.")
         return
@@ -51,11 +56,14 @@ def solicitar_cadastro_tecnico():
         break
 
     while True:
-        telefone = input("Digite o telefone do técnico: ").strip()
-        if not telefone:
-            print("O telefone não pode ser vazio. Tente novamente.")
-            continue
-        if not telefone.isascii() or not telefone.isdigit():
+        try:
+            telefone = input("Digite o telefone do técnico: ").strip()
+            if not telefone:
+                print("O telefone não pode ser vazio. Tente novamente.")
+                continue
+            if not telefone.isascii() or not telefone.isdigit():
+                raise ValueError("O telefone deve conter somente números.")
+        except ValueError:
             print("O telefone deve conter somente números. Tente novamente.")
             continue
         break
