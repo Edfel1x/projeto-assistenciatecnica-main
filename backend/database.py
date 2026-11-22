@@ -97,7 +97,11 @@ def traduzir_erro_mysql(erro: MySQLError):
     """Converte erros do conector em exceções de domínio seguras."""
     codigo = getattr(erro, "errno", None)
 
-    if codigo in (1451, 1452):  # FK RESTRICT / violação de chave estrangeira
+    # 1216/1217 são devolvidos por algumas versões do MySQL/MariaDB quando
+    # uma FK com ON DELETE RESTRICT bloqueia a exclusão (1451/1452 são os
+    # códigos equivalentes em outras versões). Sem 1217 aqui, excluir um
+    # cliente/técnico/equipamento com ordens vinculadas virava 503.
+    if codigo in (1216, 1217, 1451, 1452):  # violação de chave estrangeira
         raise DatabaseConstraintError(
             "Não é possível excluir ou alterar este registro porque existem "
             "outros registros vinculados a ele.",
