@@ -1,0 +1,25 @@
+<section class="pagina-cabecalho">
+  <div>
+    <h2>Clientes</h2>
+    <p>Cadastre e mantenha os dados de quem confia o seu equipamento a você.</p>
+  </div>
+  <div class="pagina-acoes">
+    <button class="botao botao-primario" type="button" id="btn-novo-cliente">
+      <span id="icone-novo-cliente"></span> Novo cliente
+    </button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="barra-filtros">
+    <div class="campo">
+      <label for="pesquisa-clientes">Pesquisar</label>
+      <input id="pesquisa-clientes" type="search" placeholder="Nome, telefone ou e-mail" autocomplete="off" />
+    </div>
+    <div class="campo">
+      <label for="total-clientes">Registros encontrados</label>
+      <input id="total-clientes" type="text" value="0" readonly aria-readonly="true" />
+    </div>
+  </div>
+  <div id="lista-clientes"></div>
+</section>

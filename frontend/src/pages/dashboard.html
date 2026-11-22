@@ -1,0 +1,34 @@
+<section class="pagina-cabecalho">
+  <div>
+    <h2>Visão geral</h2>
+    <p>Acompanhe os indicadores da sua assistência técnica em tempo real.</p>
+  </div>
+  <div class="pagina-acoes">
+    <button class="botao" type="button" id="btn-atualizar-dashboard">
+      <span id="icone-atualizar"></span> Atualizar
+    </button>
+  </div>
+</section>
+
+<section class="cards-grid" id="cards-dashboard" aria-label="Indicadores"></section>
+
+<section class="secao">
+  <div class="secao-cabecalho">
+    <div>
+      <h3 class="card-titulo">Ordens por status</h3>
+      <p class="card-subtitulo">Distribuição atual dos atendimentos</p>
+    </div>
+  </div>
+  <div class="card" id="grafico-status"></div>
+</section>
+
+<section class="secao">
+  <div class="secao-cabecalho">
+    <div>
+      <h3 class="card-titulo">Ordens de serviço recentes</h3>
+      <p class="card-subtitulo">Últimos atendimentos registrados</p>
+    </div>
+    <a class="botao botao-fantasma" href="#/ordens">Ver todas</a>
+  </div>
+  <div id="ordens-recentes"></div>
+</section>

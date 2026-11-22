@@ -25,6 +25,16 @@ CREATE TABLE equipamentos (
     modelo VARCHAR(100) NOT NULL,
     numero_serie VARCHAR(100),
 
+    status ENUM(
+        'Disponível',
+        'Em análise',
+        'Em manutenção',
+        'Aguardando peça',
+        'Pronto para entrega',
+        'Entregue'
+    ) NOT NULL DEFAULT 'Disponível',
+    diagnostico TEXT NULL,
+
     CONSTRAINT fk_equipamento_cliente
         FOREIGN KEY (id_cliente)
         REFERENCES clientes(id_cliente)

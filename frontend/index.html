@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="escuro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="BCDADOS - Sistema de gerenciamento para assistência técnica" />
+    <!-- Aplica o tema salvo antes do CSS, evitando troca visual na abertura. -->
+    <script>
+      (function () {
+        try {
+          var tema = localStorage.getItem('bcdados-tema');
+          if (tema === 'claro' || tema === 'escuro') {
+            document.documentElement.dataset.theme = tema;
+          }
+        } catch (e) { /* storage bloqueado: mantém o padrão escuro */ }
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>BCDADOS — Assistência Técnica</title>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <aside id="sidebar" class="sidebar" aria-label="Navegação principal"></aside>
+      <div id="sidebar-overlay" class="sidebar-overlay" hidden></div>
+
+      <div class="app-main">
+        <header id="header" class="header"></header>
+        <main id="conteudo" class="conteudo" tabindex="-1"></main>
+      </div>
+    </div>
+
+    <div id="notificacoes" class="notificacoes" aria-live="polite" aria-atomic="false"></div>
+    <div id="modal-root"></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

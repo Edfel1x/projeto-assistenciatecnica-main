@@ -1,0 +1,25 @@
+<section class="pagina-cabecalho">
+  <div>
+    <h2>Técnicos</h2>
+    <p>Gerencie a equipe responsável pelos atendimentos e especialidades.</p>
+  </div>
+  <div class="pagina-acoes">
+    <button class="botao botao-primario" type="button" id="btn-novo-tecnico">
+      <span id="icone-novo-tecnico"></span> Novo técnico
+    </button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="barra-filtros">
+    <div class="campo">
+      <label for="pesquisa-tecnicos">Pesquisar</label>
+      <input id="pesquisa-tecnicos" type="search" placeholder="Nome ou especialidade" autocomplete="off" />
+    </div>
+    <div class="campo">
+      <label for="total-tecnicos">Registros encontrados</label>
+      <input id="total-tecnicos" type="text" value="0" readonly aria-readonly="true" />
+    </div>
+  </div>
+  <div id="lista-tecnicos"></div>
+</section>

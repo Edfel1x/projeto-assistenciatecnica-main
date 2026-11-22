@@ -1,0 +1,31 @@
+<section class="pagina-cabecalho">
+  <div>
+    <h2>Equipamentos</h2>
+    <p>Aparelhos cadastrados, com proprietário, status e diagnóstico da oficina.</p>
+  </div>
+  <div class="pagina-acoes">
+    <button class="botao botao-primario" type="button" id="btn-novo-equipamento">
+      <span id="icone-novo-equipamento"></span> Novo equipamento
+    </button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="barra-filtros">
+    <div class="campo">
+      <label for="pesquisa-equipamentos">Pesquisar</label>
+      <input id="pesquisa-equipamentos" type="search" placeholder="Tipo, marca, modelo, série ou cliente" autocomplete="off" />
+    </div>
+    <div class="campo">
+      <label for="filtro-status-equipamento">Status</label>
+      <select id="filtro-status-equipamento">
+        <option value="">Todos</option>
+      </select>
+    </div>
+    <div class="campo">
+      <label for="total-equipamentos">Registros encontrados</label>
+      <input id="total-equipamentos" type="text" value="0" readonly aria-readonly="true" />
+    </div>
+  </div>
+  <div id="lista-equipamentos"></div>
+</section>

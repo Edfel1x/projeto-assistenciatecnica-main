@@ -1,9 +1,26 @@
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
+.pytest_cache/
 .venv/
 venv/
 env/
+
+# IDEs e sistema operacional
 .idea/
 .vscode/
 .DS_Store
+
+# Configuração local (credenciais - nunca versionar)
+.env
+.env.*
+!.env.example
+
+# Node.js / Vite
+node_modules/
+dist/
+*.local
+
+# Situação dos equipamentos (dados locais quando o banco não tem ALTER)
+dados/

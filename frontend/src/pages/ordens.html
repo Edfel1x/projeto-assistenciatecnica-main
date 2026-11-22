@@ -1,0 +1,39 @@
+<section class="pagina-cabecalho">
+  <div>
+    <h2>Ordens de serviço</h2>
+    <p>Acompanhe cada atendimento desde a abertura até a finalização.</p>
+  </div>
+  <div class="pagina-acoes">
+    <button class="botao botao-primario" type="button" id="btn-nova-ordem">
+      <span id="icone-nova-ordem"></span> Abrir ordem
+    </button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="barra-filtros">
+    <div class="campo">
+      <label for="filtro-id-ordem">ID da ordem</label>
+      <input id="filtro-id-ordem" type="search" placeholder="Ex.: 12" inputmode="numeric" />
+    </div>
+    <div class="campo">
+      <label for="filtro-status-ordem">Status</label>
+      <select id="filtro-status-ordem">
+        <option value="">Todos</option>
+        <option value="Aberta">Aberta</option>
+        <option value="Em manutenção">Em manutenção</option>
+        <option value="Concluída">Concluída</option>
+        <option value="Cancelada">Cancelada</option>
+      </select>
+    </div>
+    <div class="campo">
+      <label for="filtro-tecnico-ordem">Técnico responsável</label>
+      <select id="filtro-tecnico-ordem"><option value="">Todos</option></select>
+    </div>
+    <div class="campo">
+      <label for="filtro-texto-ordem">Cliente ou equipamento</label>
+      <input id="filtro-texto-ordem" type="search" placeholder="Nome, tipo, modelo ou série" />
+    </div>
+  </div>
+  <div id="lista-ordens"></div>
+</section>

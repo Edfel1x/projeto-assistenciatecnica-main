@@ -1,0 +1,10 @@
+# API REST (Flask)
+Flask==3.1.1
+Flask-Cors==6.0.1
+python-dotenv==1.1.1
+
+# Acesso ao MySQL
+mysql-connector-python==26.10.0
+
+# Testes automatizados
+pytest==8.4.2

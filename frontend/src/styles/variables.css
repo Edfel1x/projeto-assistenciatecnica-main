@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Variáveis de tema do BCDADOS.
+   Toda a identidade visual (cores, bordas, sombras) é controlada aqui.
+   O atributo data-theme é definido no <html> pelo script theme.js.
+   ========================================================================== */
+
+:root,
+:root[data-theme='escuro'] {
+  color-scheme: dark;
+
+  --bg-principal: #080b12;
+  --bg-secundario: #101827;
+  --superficie: #151f30;
+  --superficie-elevada: #1b2840;
+  --superficie-hover: #22314b;
+
+  --azul-principal: #163a70;
+  --azul-destaque: #2563eb;
+  --azul-suave: #60a5fa;
+  --azul-fantasma: rgba(37, 99, 235, 0.14);
+
+  --texto-principal: #f8fafc;
+  --texto-secundario: #94a3b8;
+  --texto-suave: #64748b;
+  --texto-inverso: #ffffff;
+
+  --borda: #263449;
+  --borda-forte: #33455f;
+
+  --sucesso: #22c55e;
+  --sucesso-fundo: rgba(34, 197, 94, 0.14);
+  --aviso: #f59e0b;
+  --aviso-fundo: rgba(245, 158, 11, 0.14);
+  --info: #3b82f6;
+  --info-fundo: rgba(59, 130, 246, 0.14);
+  --perigo: #ef4444;
+  --perigo-fundo: rgba(239, 68, 68, 0.14);
+
+  --sombra-suave: 0 4px 16px rgba(0, 0, 0, 0.28);
+  --sombra-modal: 0 24px 64px rgba(0, 0, 0, 0.55);
+
+  --raio: 12px;
+  --raio-pequeno: 8px;
+  --raio-grande: 18px;
+
+  --largura-sidebar: 264px;
+  --altura-header: 72px;
+}
+
+:root[data-theme='claro'] {
+  color-scheme: light;
+
+  --bg-principal: #f8fafc;
+  --bg-secundario: #ffffff;
+  --superficie: #f1f5f9;
+  --superficie-elevada: #ffffff;
+  --superficie-hover: #e8eef6;
+
+  --azul-principal: #102c54;
+  --azul-destaque: #1d4ed8;
+  --azul-suave: #3b82f6;
+  --azul-fantasma: rgba(29, 78, 216, 0.09);
+
+  --texto-principal: #0f172a;
+  --texto-secundario: #64748b;
+  --texto-suave: #94a3b8;
+  --texto-inverso: #ffffff;
+
+  --borda: #e2e8f0;
+  --borda-forte: #cbd5e1;
+
+  --sucesso: #15803d;
+  --sucesso-fundo: #dcfce7;
+  --aviso: #b45309;
+  --aviso-fundo: #fef3c7;
+  --info: #1d4ed8;
+  --info-fundo: #dbeafe;
+  --perigo: #b91c1c;
+  --perigo-fundo: #fee2e2;
+
+  --sombra-suave: 0 4px 18px rgba(15, 23, 42, 0.07);
+  --sombra-modal: 0 24px 64px rgba(15, 23, 42, 0.22);
+}

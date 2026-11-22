@@ -1,0 +1,33 @@
+<section class="pagina-cabecalho">
+  <div>
+    <h2>Configurações</h2>
+    <p>Preferências da interface e informações da conexão.</p>
+  </div>
+</section>
+
+<section class="cards-grid">
+  <div class="card">
+    <h3 class="card-titulo">Aparência</h3>
+    <p class="card-subtitulo">O tema escolhido é salvo neste navegador.</p>
+    <div style="margin-top:1rem; display:flex; gap:.6rem; flex-wrap:wrap">
+      <button class="botao" type="button" data-tema="escuro">Tema escuro</button>
+      <button class="botao" type="button" data-tema="claro">Tema claro</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="card-titulo">Conexão com a API</h3>
+    <p class="card-subtitulo">Endereço configurado no frontend via VITE_API_URL.</p>
+    <p class="mono texto-secundario" id="api-base" style="margin-top:1rem; overflow-wrap:anywhere"></p>
+    <button class="botao" type="button" id="btn-testar-api" style="margin-top:.85rem">Testar conexão</button>
+  </div>
+</section>
+
+<section class="secao card">
+  <h3 class="card-titulo">Sobre o BCDADOS</h3>
+  <p class="texto-secundario" style="margin-top:.6rem">
+    Sistema de gerenciamento para assistência técnica. O frontend (Vite + JavaScript)
+    consome uma API REST em Flask, que aplica as regras de negócio e persiste os dados no MySQL.
+    Nenhuma credencial do banco está disponível no navegador.
+  </p>
+</section>
