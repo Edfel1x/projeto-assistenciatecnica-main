@@ -129,7 +129,7 @@ export async function renderizarTecnicos(container) {
     } else if (botao.dataset.acao === 'excluir') {
       const confirmado = await confirmar({
         titulo: 'Excluir técnico',
-        mensagem: `Deseja realmente excluir "${tecnico.nome}"? Se houver ordens vinculadas, a exclusão será bloqueada pelo banco.`,
+        mensagem: `Deseja realmente excluir "${tecnico.nome}"? Ordens concluídas vinculadas impedem a exclusão. Exclua-as em Ordens de Serviço primeiro.`,
         rotuloConfirmar: 'Excluir',
         perigo: true,
       });

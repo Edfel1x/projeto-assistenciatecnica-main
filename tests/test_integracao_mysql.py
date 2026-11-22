@@ -183,3 +183,105 @@ def test_ciclo_completo_de_ordem_de_servico(banco_teste, monkeypatch):
         painel = cliente.get('/api/dashboard').get_json()['data']
         assert painel['total_clientes'] >= 1
         assert painel['ordens_finalizadas'] >= 1
+
+
+def test_cancelar_nao_libera_vinculo_mas_excluir_ordem_sim(banco_teste, monkeypatch):
+    """Regressão do relato: cancelar a ordem e continuar sem conseguir excluir.
+
+    O CHECK do banco só exige técnico em ordens Concluídas. Portanto uma
+    ordem Cancelada pode ser desvinculada automaticamente ao excluir o
+    técnico. Já o equipamento continua preso até a ordem ser excluída.
+    """
+    app = criar_app()
+    app.config.update(TESTING=True)
+    monkeypatch.setattr(config, 'DB_NAME', BANCO_TESTE)
+
+    with app.test_client() as cliente:
+        cli = cliente.post('/api/clientes', json={
+            'nome': 'Cliente Exclusão', 'telefone': '11555550000',
+        }).get_json()['data']
+        tec = cliente.post('/api/tecnicos', json={
+            'nome': 'Técnico Exclusão', 'telefone': '11444440000',
+            'especialidade': 'Teste',
+        }).get_json()['data']
+        equ = cliente.post('/api/equipamentos', json={
+            'id_cliente': cli['id_cliente'], 'tipo': 'Tablet', 'marca': 'Samsung',
+            'modelo': 'Tab', 'numero_serie': 'EXCLUI123',
+        }).get_json()['data']
+        ordem = cliente.post('/api/ordens-de-servico', json={
+            'id_equipamento': equ['id_equipamento'],
+            'defeito_relatado': 'Não carrega',
+        }).get_json()['data']
+        cliente.patch(
+            f"/api/ordens-de-servico/{ordem['id_ordem']}/tecnico",
+            json={'id_tecnico': tec['id_tecnico']},
+        )
+
+        # O usuário cancelou a ordem, como a mensagem antiga orientava.
+        cancelada = cliente.patch(f"/api/ordens-de-servico/{ordem['id_ordem']}/cancelar")
+        assert cancelada.status_code == 200
+
+        # Cancelar manteve a linha: o equipamento ainda não pode ser excluído.
+        assert cliente.delete(f"/api/equipamentos/{equ['id_equipamento']}").status_code == 409
+
+        # O técnico é desvinculado automaticamente (ordem Cancelada).
+        exclusao_tec = cliente.delete(f"/api/tecnicos/{tec['id_tecnico']}")
+        assert exclusao_tec.status_code == 200
+        assert cliente.get(f"/api/tecnicos/{tec['id_tecnico']}").status_code == 404
+        ordem_atualizada = cliente.get(
+            f"/api/ordens-de-servico/{ordem['id_ordem']}"
+        ).get_json()['data']
+        assert ordem_atualizada['id_tecnico'] is None
+
+        # Agora existe um caminho real para excluir o vínculo restante.
+        exclusao_ordem = cliente.delete(f"/api/ordens-de-servico/{ordem['id_ordem']}")
+        assert exclusao_ordem.status_code == 200
+        assert cliente.get(f"/api/ordens-de-servico/{ordem['id_ordem']}").status_code == 404
+
+        assert cliente.delete(f"/api/equipamentos/{equ['id_equipamento']}").status_code == 200
+        assert cliente.delete(f"/api/clientes/{cli['id_cliente']}").status_code == 200
+
+
+def test_ordem_concluida_exige_exclusao_da_ordem_antes_do_tecnico(
+    banco_teste, monkeypatch
+):
+    """Ordens concluídas têm CHECK que exige técnico: bloqueio com orientação."""
+    app = criar_app()
+    app.config.update(TESTING=True)
+    monkeypatch.setattr(config, 'DB_NAME', BANCO_TESTE)
+
+    with app.test_client() as cliente:
+        cli = cliente.post('/api/clientes', json={
+            'nome': 'Cliente Concluída', 'telefone': '11333330000',
+        }).get_json()['data']
+        tec = cliente.post('/api/tecnicos', json={
+            'nome': 'Técnico Concluída', 'telefone': '11222220000',
+            'especialidade': 'Teste',
+        }).get_json()['data']
+        equ = cliente.post('/api/equipamentos', json={
+            'id_cliente': cli['id_cliente'], 'tipo': 'Notebook', 'marca': 'Lenovo',
+            'modelo': 'T440', 'numero_serie': 'CONCLUI123',
+        }).get_json()['data']
+        ordem = cliente.post('/api/ordens-de-servico', json={
+            'id_equipamento': equ['id_equipamento'],
+            'defeito_relatado': 'Teclado não responde',
+        }).get_json()['data']
+        cliente.patch(
+            f"/api/ordens-de-servico/{ordem['id_ordem']}/diagnostico",
+            json={'diagnostico': 'Cabo do teclado danificado'},
+        )
+        cliente.patch(
+            f"/api/ordens-de-servico/{ordem['id_ordem']}/tecnico",
+            json={'id_tecnico': tec['id_tecnico']},
+        )
+        assert cliente.patch(
+            f"/api/ordens-de-servico/{ordem['id_ordem']}/finalizar",
+            json={'valor_servico': '100,00'},
+        ).status_code == 200
+
+        bloqueio = cliente.delete(f"/api/tecnicos/{tec['id_tecnico']}")
+        assert bloqueio.status_code == 409
+        assert 'ordens concluídas' in bloqueio.get_json()['error']
+
+        assert cliente.delete(f"/api/ordens-de-servico/{ordem['id_ordem']}").status_code == 200
+        assert cliente.delete(f"/api/tecnicos/{tec['id_tecnico']}").status_code == 200

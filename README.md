@@ -309,6 +309,8 @@ Testes realizados neste ambiente: **27 passaram, 0 pulados**, incluindo os 2 tes
 
 - Dashboard com indicadores reais e ordens recentes.
 - Cadastro, edição, consulta, exclusão e pesquisa de clientes, técnicos e equipamentos.
+- Exclusão de ordens na tela "Ordens de Serviço" para liberar vínculos: cancelar uma ordem **não** remove o vínculo; excluir, sim.
+- Ao excluir um técnico, ordens abertas/canceladas são desvinculadas automaticamente; ordens concluídas exigem a exclusão da ordem antes (o banco exige técnico nelas).
 - Abertura de ordens com equipamento existente obrigatório.
 - Detalhamento completo da ordem com diagnóstico, técnico, status e valores.
 - Operações de diagnóstico, atribuição, status, finalização e cancelamento com confirmação.

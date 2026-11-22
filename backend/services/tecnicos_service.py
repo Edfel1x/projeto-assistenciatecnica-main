@@ -6,6 +6,7 @@ As validações replicam tecnicos.py.
 
 from ..database import obter_conexao, transacao
 from .common import (
+    ConflictError,
     NotFoundError,
     ValidationError,
     serializar_registro,
@@ -82,7 +83,29 @@ def atualizar(id_tecnico: int, dados: dict) -> dict:
 
 
 def excluir(id_tecnico: int) -> None:
+    """Exclui o técnico, liberando os vínculos que o banco permitir.
+
+    Cancelar uma ordem NÃO remove o vínculo: a linha continua apontando para
+    o técnico. Por isso desvinculamos automaticamente as ordens que aceitam
+    técnico nulo (Aberta, Em manutenção e Cancelada). Ordens Concluídas são
+    protegidas por CHECK e exigem a exclusão da ordem antes.
+    """
     with transacao() as (_, cursor):
+        cursor.execute(
+            "SELECT COUNT(*) AS total FROM ordens_servico "
+            "WHERE id_tecnico = %s AND status = 'Concluída'",
+            (id_tecnico,),
+        )
+        if cursor.fetchone()["total"]:
+            raise ConflictError(
+                "Este técnico está vinculado a ordens concluídas. Exclua essas "
+                "ordens na tela Ordens de Serviço antes de excluir o técnico."
+            )
+
+        cursor.execute(
+            "UPDATE ordens_servico SET id_tecnico = NULL WHERE id_tecnico = %s",
+            (id_tecnico,),
+        )
         cursor.execute("DELETE FROM tecnicos WHERE id_tecnico = %s", (id_tecnico,))
         if cursor.rowcount == 0:
             raise NotFoundError("Técnico não encontrado.")

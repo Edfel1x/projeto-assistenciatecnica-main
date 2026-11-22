@@ -229,3 +229,16 @@ def cancelar(id_ordem: int) -> dict:
             (id_ordem,),
         )
     return buscar_por_id(id_ordem)
+
+
+def excluir(id_ordem: int) -> None:
+    """Exclui a ordem para liberar vínculos de equipamento/técnico.
+
+    Cancelar NÃO remove o vínculo: a linha continua referenciando o
+    equipamento e o técnico. Sem esta operação, a orientação dada ao usuário
+    ("exclua os registros vinculados") era impossível de cumprir pela API.
+    """
+    with transacao() as (_, cursor):
+        cursor.execute("DELETE FROM ordens_servico WHERE id_ordem = %s", (id_ordem,))
+        if cursor.rowcount == 0:
+            raise NotFoundError("Ordem de serviço não encontrada.")

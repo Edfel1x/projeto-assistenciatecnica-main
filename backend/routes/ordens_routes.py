@@ -74,3 +74,13 @@ def cancelar_ordem(id_ordem):
         ordens_service.cancelar(id_ordem),
         "Ordem de serviço cancelada com sucesso.",
     )
+
+
+@bp.delete("/<int:id_ordem>")
+def excluir_ordem(id_ordem):
+    """Remove a ordem para liberar vínculos de equipamento e técnico.
+
+    Cancelar mantém a linha no banco e, portanto, NÃO libera o vínculo.
+    """
+    ordens_service.excluir(id_ordem)
+    return sucesso(message="Ordem de serviço excluída com sucesso.")

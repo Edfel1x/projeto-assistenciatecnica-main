@@ -130,7 +130,7 @@ export async function renderizarClientes(container) {
     } else if (botao.dataset.acao === 'excluir') {
       const confirmado = await confirmar({
         titulo: 'Excluir cliente',
-        mensagem: `Deseja realmente excluir "${cliente.nome}"? Esta ação não pode ser desfeita.`,
+        mensagem: `Deseja realmente excluir "${cliente.nome}"? Clientes com vínculos não podem ser excluídos. Exclua antes os equipamentos e ordens nas telas correspondentes.`,
         rotuloConfirmar: 'Excluir',
         perigo: true,
       });

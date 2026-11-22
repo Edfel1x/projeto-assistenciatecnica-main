@@ -25,7 +25,9 @@ def test_violacao_de_chave_estrangeira_vira_conflito(codigo):
     """
     with pytest.raises(DatabaseConstraintError) as info:
         traduzir_erro_mysql(ErroMysqlFalso(codigo))
-    assert 'vinculados' in str(info.value)
+    assert 'vinculado a outros cadastros' in str(info.value)
+    assert 'Exclua os registros vinculados' in str(info.value)
+    assert 'Ordens de Serviço' in str(info.value)
 
 
 def test_erro_desconhecido_continua_sendo_indisponibilidade():

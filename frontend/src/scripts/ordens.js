@@ -66,7 +66,8 @@ function desenharTabela() {
         rotulo: 'Ações',
         classe: 'coluna-acoes',
         html: (item) => `
-          <button class="botao botao-icone botao-fantasma" type="button" data-acao="ver" data-id="${item.id_ordem}" title="Detalhes" aria-label="Detalhes da ordem ${item.id_ordem}">${icone('olho')}</button>`,
+          <button class="botao botao-icone botao-fantasma" type="button" data-acao="ver" data-id="${item.id_ordem}" title="Detalhes" aria-label="Detalhes da ordem ${item.id_ordem}">${icone('olho')}</button>
+          <button class="botao botao-icone botao-perigo" type="button" data-acao="excluir" data-id="${item.id_ordem}" title="Excluir" aria-label="Excluir ordem ${item.id_ordem}">${icone('lixeira')}</button>`,
       },
     ],
     itens,
@@ -333,11 +334,30 @@ export async function renderizarOrdens(container) {
   ['#filtro-id-ordem', '#filtro-status-ordem', '#filtro-tecnico-ordem', '#filtro-texto-ordem']
     .forEach((seletor) => container.querySelector(seletor).addEventListener('input', desenharTabela));
 
-  container.querySelector('#lista-ordens').addEventListener('click', (evento) => {
-    const botao = evento.target.closest('[data-acao="ver"]');
+  container.querySelector('#lista-ordens').addEventListener('click', async (evento) => {
+    const botao = evento.target.closest('[data-acao]');
     if (!botao) return;
     const ordem = ordens.find((item) => item.id_ordem === Number(botao.dataset.id));
-    if (ordem) abrirDetalhes(ordem);
+    if (!ordem) return;
+
+    if (botao.dataset.acao === 'ver') {
+      abrirDetalhes(ordem);
+    } else if (botao.dataset.acao === 'excluir') {
+      const confirmado = await confirmar({
+        titulo: 'Excluir ordem de serviço',
+        mensagem: `Deseja excluir a ordem #${ordem.id_ordem}? Isso libera o equipamento e o técnico vinculados e não pode ser desfeito.`,
+        rotuloConfirmar: 'Excluir',
+        perigo: true,
+      });
+      if (!confirmado) return;
+      try {
+        await comCarregamento(api.excluirOrdem(ordem.id_ordem), 'Excluindo ordem...');
+        notificar('sucesso', 'Ordem excluída com sucesso.');
+        await carregar();
+      } catch (erro) {
+        notificar('erro', erro.message, erro.detalhe);
+      }
+    }
   });
 
   await carregar();

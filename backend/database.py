@@ -103,8 +103,9 @@ def traduzir_erro_mysql(erro: MySQLError):
     # cliente/técnico/equipamento com ordens vinculadas virava 503.
     if codigo in (1216, 1217, 1451, 1452):  # violação de chave estrangeira
         raise DatabaseConstraintError(
-            "Não é possível excluir ou alterar este registro porque existem "
-            "outros registros vinculados a ele.",
+            "Este registro está vinculado a outros cadastros. Exclua os "
+            "registros vinculados na tela correspondente (por exemplo, as "
+            "ordens em Ordens de Serviço) e tente novamente.",
             "FOREIGN_KEY",
         ) from None
 

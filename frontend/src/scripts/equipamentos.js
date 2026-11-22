@@ -252,7 +252,7 @@ export async function renderizarEquipamentos(container) {
     } else if (botao.dataset.acao === 'excluir') {
       const confirmado = await confirmar({
         titulo: 'Excluir equipamento',
-        mensagem: `Deseja excluir o equipamento #${id}? Registros com ordens de serviço vinculadas não podem ser excluídos.`,
+        mensagem: `Deseja excluir o equipamento #${id}? Equipamentos com ordens vinculadas não podem ser excluídos. Exclua essas ordens em Ordens de Serviço primeiro.`,
         rotuloConfirmar: 'Excluir',
         perigo: true,
       });

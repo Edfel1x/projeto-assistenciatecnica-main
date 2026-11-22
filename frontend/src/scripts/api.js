@@ -82,6 +82,7 @@ export const api = {
   atualizarEquipamento: (id, dados) => json('PUT')(`/equipamentos/${id}`, dados),
   atualizarSituacaoEquipamento: (id, dados) => json('PATCH')(`/equipamentos/${id}/situacao`, dados),
   excluirEquipamento: (id) => json('DELETE')(`/equipamentos/${id}`),
+  excluirOrdem: (id) => json('DELETE')(`/ordens-de-servico/${id}`),
 
   // Ordens de serviço
   listarOrdens: () => requisitar('/ordens-de-servico'),

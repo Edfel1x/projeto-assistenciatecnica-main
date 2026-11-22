@@ -115,6 +115,40 @@ def test_conflito_retorna_409(cliente_api, monkeypatch):
     assert resposta.get_json()['success'] is False
 
 
+def test_vinculo_bloqueia_exclusao_com_mensagem_clara(cliente_api, monkeypatch):
+    """Erro de FK deve explicar o vínculo, não parecer falha do servidor."""
+    from backend.services import tecnicos_service
+    from backend.database import DatabaseConstraintError
+
+    def falhar(_id):
+        raise DatabaseConstraintError(
+            "Este registro está vinculado a outros cadastros. Exclua os "
+            "registros vinculados na tela correspondente.",
+            "FOREIGN_KEY",
+        )
+
+    monkeypatch.setattr(tecnicos_service, 'excluir', falhar)
+    resposta = cliente_api.delete('/api/tecnicos/1')
+    assert resposta.status_code == 409
+    corpo = resposta.get_json()
+    assert corpo['message'] == 'Não foi possível excluir este registro.'
+    assert 'vinculado' in corpo['error']
+    assert 'Exclua os registros vinculados' in corpo['error']
+
+
+def test_exclusao_de_ordem_pela_api(cliente_api, monkeypatch):
+    """DELETE /ordens-de-servico/{id} é o caminho real para liberar vínculos."""
+    from backend.services import ordens_service
+
+    chamados = []
+    monkeypatch.setattr(ordens_service, 'excluir', chamados.append)
+
+    resposta = cliente_api.delete('/api/ordens-de-servico/7')
+    assert resposta.status_code == 200
+    assert chamados == [7]
+    assert resposta.get_json()['message'] == 'Ordem de serviço excluída com sucesso.'
+
+
 def test_banco_indisponivel_retorna_503(cliente_api, monkeypatch):
     from backend.services import dashboard_service
     from backend.database import DatabaseUnavailable

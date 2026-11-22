@@ -92,7 +92,7 @@ Campos reais: `id_tecnico`, `nome`, `telefone`, `especialidade`.
 | GET | `/api/tecnicos/{id}` | Busca por ID |
 | POST | `/api/tecnicos` | Cadastra |
 | PUT | `/api/tecnicos/{id}` | Atualiza campos enviados |
-| DELETE | `/api/tecnicos/{id}` | Exclui (409 se houver ordens vinculadas) |
+| DELETE | `/api/tecnicos/{id}` | Exclui e desvincula ordens abertas/canceladas (409 se houver ordens concluídas) |
 
 **POST /api/tecnicos**
 
@@ -162,7 +162,8 @@ Status válidos (ENUM do MySQL): `Aberta`, `Em manutenção`, `Concluída`, `Can
 | PATCH | `/api/ordens-de-servico/{id}/tecnico` | Atribui técnico |
 | PATCH | `/api/ordens-de-servico/{id}/status` | Altera para `Aberta` ou `Em manutenção` |
 | PATCH | `/api/ordens-de-servico/{id}/finalizar` | Conclui com valor e data |
-| PATCH | `/api/ordens-de-servico/{id}/cancelar` | Cancela |
+| PATCH | `/api/ordens-de-servico/{id}/cancelar` | Cancela (mantém o vínculo) |
+| DELETE | `/api/ordens-de-servico/{id}` | Exclui a ordem e libera o vínculo com equipamento/técnico |
 
 **POST /api/ordens-de-servico**
 

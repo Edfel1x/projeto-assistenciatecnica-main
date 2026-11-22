@@ -75,7 +75,11 @@ def criar_app() -> Flask:
 
     @app.errorhandler(DatabaseConstraintError)
     def tratar_restricao(excecao):
-        return erro("Não foi possível realizar a operação.", str(excecao), 409)
+        # Mensagem principal específica: o usuário precisa entender na hora
+        # que o bloqueio é por vínculo, e não uma falha do servidor.
+        if getattr(excecao, "codigo", None) == "FOREIGN_KEY":
+            return erro("Não foi possível excluir este registro.", str(excecao), 409)
+        return erro("Não foi possível salvar este registro.", str(excecao), 409)
 
     @app.errorhandler(DatabaseUnavailable)
     def tratar_indisponibilidade(excecao):
