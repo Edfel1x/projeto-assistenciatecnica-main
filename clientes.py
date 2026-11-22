@@ -19,7 +19,7 @@ def cadastro_cliente(nome, telefone, email):
     cliente = {
         "nome": nome,
         "telefone": telefone,
-        "email": email,
+        "e-mail": email,
     }
 
     cliente["id"] = id_cliente
@@ -32,7 +32,7 @@ def listar_clientes():
         print("Nenhum cliente cadastrado.")
     else:
         for i, cliente in enumerate(clientes, start=1):
-            print(f"{i}. ID: {cliente['id']}, Nome: {cliente['nome']}, Email: {cliente['email']}, Telefone: {cliente['telefone']}")
+            print(f"{i}. ID: {cliente['id']}, Nome: {cliente['nome']}, Email: {cliente['e-mail']}, Telefone: {cliente['telefone']}")
 
 def buscar_cliente_por_id(id_cliente):
     for cliente in clientes:

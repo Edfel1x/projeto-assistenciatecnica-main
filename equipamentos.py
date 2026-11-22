@@ -30,7 +30,7 @@ def cadastro_equipamento(tipo, marca, modelo, numero_serie, id_cliente=None):
         "tipo": tipo,
         "marca": marca,
         "modelo": modelo,
-        "numero_serie": numero_serie,
+        "série_numero": numero_serie,
         "id_cliente": id_cliente,
     }
 
